@@ -1,9 +1,12 @@
 package com.assignment;
 
+import java.util.Map;
 import java.util.Random;
 import java.util.Scanner;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class Main {
+
 
     //generate random point object until n times
     static Point[] generateRandomPoint(int n) {
@@ -37,13 +40,13 @@ public class Main {
         int n = input.nextInt();
 
         Point[] arrayofpoint=generateRandomPoint(n);
-
+        Map<Point,Point> map = new ConcurrentHashMap<>();
 
         for(int i=0;i<arrayofpoint.length;i++){
             System.out.println(arrayofpoint[i]);
         }
 
-        generateEdge edge=new generateEdge(arrayofpoint);
+        generateEdge edge=new generateEdge(arrayofpoint,map);
 
         System.out.print("Enter t: ");
         int t = input.nextInt();
@@ -57,6 +60,12 @@ public class Main {
         {
             thread[i].start();
         }
+
+
+
+
+
+
 
 
     }

@@ -12,5 +12,7 @@ public class EdgeJob implements Runnable {
 
 //        System.out.printf("%s: Going to print a document\n", Thread.currentThread().getName());
         generateedge.generate();
+//        System.out.println(generateedge.getEdgemap());
+
     }
 }
