@@ -13,6 +13,10 @@ public class generateEdge {
     private Map<Point,Point> edgemap=new ConcurrentHashMap<>();
     private int totaledge=0;
 
+    public int getTotaledge() {
+        return totaledge;
+    }
+
     public Map<Point, Point> getEdgemap() {
         return edgemap;
     }
@@ -22,32 +26,41 @@ public class generateEdge {
         this.edgemap = edgemap;
     }
 
+    public void printEdge(){
+        for (Map.Entry entry : edgemap.entrySet())
+        {
+            System.out.println("Point : " + entry.getKey() + " with Point " + entry.getValue());
+        }
+    }
+
     public synchronized void generate()
     {
         edgeLock.lock();
         int currentthreadedge=0;
-        try
-        {
-            int counter=0;
+        try {
+            int counter = 0;
+
             //try create edge for 20 times
-            while(counter<20){
-                Random j=new Random();
-                int randomindex1=j.nextInt(this.pointsarray.length);
-                int randomindex2=j.nextInt(this.pointsarray.length);
+            while (counter < 20) {
+                Random j = new Random();
+                int randomindex1 = j.nextInt(this.pointsarray.length);
+                int randomindex2 = j.nextInt(this.pointsarray.length);
 
                 //check if same index selected
-                if(randomindex1!=randomindex2){
+                if (randomindex1 != randomindex2) {
 
                     //check key
-                    boolean checkkey1=edgemap.containsKey(pointsarray[randomindex1]);
-                    boolean checkkey2=edgemap.containsKey(pointsarray[randomindex2]);
+                    boolean checkkey1 = edgemap.containsKey(pointsarray[randomindex1]);
+                    boolean checkkey2 = edgemap.containsKey(pointsarray[randomindex2]);
                     //check value
-                    boolean checkval1=edgemap.containsValue(pointsarray[randomindex1]);
-                    boolean checkval2=edgemap.containsValue(pointsarray[randomindex2]);
+                    boolean checkval1 = edgemap.containsValue(pointsarray[randomindex1]);
+                    boolean checkval2 = edgemap.containsValue(pointsarray[randomindex2]);
 
-                    //check if already in the map
-                    if(!checkkey1 &&!checkval1 &&!checkkey2 &&!checkval2){
-                        edgemap.putIfAbsent(pointsarray[randomindex1],pointsarray[randomindex2]);
+                    //check if not already in the map, put combination of point in map
+                    if (!checkkey1 && !checkval1 && !checkkey2 && !checkval2) {
+                        edgemap.putIfAbsent(pointsarray[randomindex1], pointsarray[randomindex2]);
+
+                        //
                         currentthreadedge++;
                         totaledge++;
                     }
@@ -55,12 +68,13 @@ public class generateEdge {
                 }
                 counter++;
             }
+
         }  finally
         {
             System.out.println(Thread.currentThread().getName()+" Successfully run");
             System.out.println("Edge created for this thread: "+currentthreadedge);
             //check if there is edge created on current thread, print edgemap;
-            if(currentthreadedge!=0) System.out.println(edgemap);
+//            if (currentthreadedge!=0) printEdge();
             System.out.println("Total edge Created: "+totaledge);
             edgeLock.unlock();
         }

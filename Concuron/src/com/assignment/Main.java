@@ -4,6 +4,9 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Scanner;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 public class Main {
 
@@ -39,7 +42,9 @@ public class Main {
         System.out.print("Enter n: ");
         int n = input.nextInt();
 
+        //initialize point array
         Point[] arrayofpoint=generateRandomPoint(n);
+        //initialize map to hold the edge
         Map<Point,Point> map = new ConcurrentHashMap<>();
 
         for(int i=0;i<arrayofpoint.length;i++){
@@ -51,16 +56,40 @@ public class Main {
         System.out.print("Enter t: ");
         int t = input.nextInt();
 
-        Thread thread[] = new Thread[t];
-        for (int i = 0; i < t; i++)
-        {
-            thread[i] = new Thread(new EdgeJob(edge), "Thread " + i);
-        }
-        for (int i = 0; i < t; i++)
-        {
-            thread[i].start();
+        System.out.print("Enter m (in second): ");
+        int m = input.nextInt();
+
+//        Thread thread[] = new Thread[t];
+//        for (int i = 0; i < t; i++)
+//        {
+//            thread[i] = new Thread(new EdgeJob(edge), "Thread " + i);
+//        }
+//        for (int i = 0; i < t; i++)
+//        {
+//            thread[i].start();
+//        }
+//
+
+        ExecutorService executor = Executors.newCachedThreadPool();
+
+        //Create and launch t threads
+        for (int i = 0; i < t; i++) {
+            executor.execute(new EdgeJob(edge));
         }
 
+
+        executor.shutdown();
+        try {
+            if (!executor.awaitTermination(m, TimeUnit.SECONDS)) {
+                executor.shutdownNow();
+            }
+        } catch (InterruptedException e) {
+            executor.shutdownNow();
+        }
+
+
+
+        edge.printEdge();
 
 
 

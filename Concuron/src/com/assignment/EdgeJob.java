@@ -9,10 +9,6 @@ public class EdgeJob implements Runnable {
 
     @Override
     public void run() {
-
-//        System.out.printf("%s: Going to print a document\n", Thread.currentThread().getName());
         generateedge.generate();
-//        System.out.println(generateedge.getEdgemap());
-
     }
 }
