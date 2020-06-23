@@ -77,6 +77,9 @@ public class Main {
             executor.execute(new EdgeJob(edge));
         }
 
+        if(Thread.currentThread().isInterrupted()){
+            executor.shutdownNow();
+        }
 
         executor.shutdown();
         try {

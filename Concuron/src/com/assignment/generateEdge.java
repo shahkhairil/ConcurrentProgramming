@@ -68,14 +68,22 @@ public class generateEdge {
                 }
                 counter++;
             }
+            //current thread edge equal 0 after 20 time try, break thread
+            if (currentthreadedge == 0) {
+                Thread.currentThread().interrupt();
+            } else {
+                System.out.println(Thread.currentThread().getName() + " Successfully run");
+                System.out.println("Edge created for this thread: " + currentthreadedge);
+                System.out.println("Total edge Created: " + totaledge);
+            }
 
-        }  finally
+
+        }finally
         {
-            System.out.println(Thread.currentThread().getName()+" Successfully run");
-            System.out.println("Edge created for this thread: "+currentthreadedge);
-            //check if there is edge created on current thread, print edgemap;
-//            if (currentthreadedge!=0) printEdge();
-            System.out.println("Total edge Created: "+totaledge);
+
+
+
+
             edgeLock.unlock();
         }
     }
