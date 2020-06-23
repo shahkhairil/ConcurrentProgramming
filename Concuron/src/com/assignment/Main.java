@@ -69,14 +69,14 @@ public class Main {
 //            thread[i].start();
 //        }
 //
-
+        //initialize executor service
         ExecutorService executor = Executors.newCachedThreadPool();
 
         //Create and launch t threads
         for (int i = 0; i < t; i++) {
             executor.execute(new EdgeJob(edge));
         }
-
+        //if interrupted(a thread cannot create edge after 20 tries)
         if(Thread.currentThread().isInterrupted()){
             executor.shutdownNow();
         }
@@ -91,7 +91,7 @@ public class Main {
         }
 
 
-
+        //print the edge created
         edge.printEdge();
 
 
