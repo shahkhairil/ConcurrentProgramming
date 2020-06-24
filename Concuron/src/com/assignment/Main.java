@@ -59,16 +59,7 @@ public class Main {
         System.out.print("Enter m (in second): ");
         int m = input.nextInt();
 
-//        Thread thread[] = new Thread[t];
-//        for (int i = 0; i < t; i++)
-//        {
-//            thread[i] = new Thread(new EdgeJob(edge), "Thread " + i);
-//        }
-//        for (int i = 0; i < t; i++)
-//        {
-//            thread[i].start();
-//        }
-//
+
         //initialize executor service
         ExecutorService executor = Executors.newCachedThreadPool();
 
@@ -76,11 +67,12 @@ public class Main {
         for (int i = 0; i < t; i++) {
             executor.execute(new EdgeJob(edge));
         }
-        //if interrupted(a thread cannot create edge after 20 tries)
+        //if interrupted(a thread cannot create edge after 20 tries), shutdown
         if(Thread.currentThread().isInterrupted()){
             executor.shutdownNow();
         }
 
+        //stop application after certain interval
         executor.shutdown();
         try {
             if (!executor.awaitTermination(m, TimeUnit.SECONDS)) {

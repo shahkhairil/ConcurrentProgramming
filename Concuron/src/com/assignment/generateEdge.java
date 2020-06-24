@@ -29,7 +29,7 @@ public class generateEdge {
     public void printEdge(){
         for (Map.Entry entry : edgemap.entrySet())
         {
-            System.out.println("Point : " + entry.getKey() + " with Point " + entry.getValue());
+            System.out.println(entry.getKey() + " with " + entry.getValue());
         }
     }
 
@@ -71,6 +71,7 @@ public class generateEdge {
             //current thread edge equal 0 after 20 time try, break thread
             if (currentthreadedge == 0) {
                 Thread.currentThread().interrupt();
+//                System.out.println(Thread.currentThread().getName() + "Interrupted");
             } else {
                 System.out.println(Thread.currentThread().getName() + " Successfully run");
                 System.out.println("Edge created for this thread: " + currentthreadedge);
